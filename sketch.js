@@ -127,23 +127,7 @@ function draw() {
 	if (showSpirals == true && amountSteps % anglePrecision == 0) {
 		for (i = 0; i <= fibonacciA; i++) {
 			if ((amountSteps - i) % fibonacciA == 0) {
-				
-				// draw if enough data is there
-				if (curvePoints[i][0] != center[0]) {
-					stroke(lineColor[0],lineColor[1],lineColor[2]);
-					strokeWeight(lineSize);
-					curve(
-						curvePoints[i][0],
-						curvePoints[i][1],
-						curvePoints[i][2],
-						curvePoints[i][3],
-						curvePoints[i][4],
-						curvePoints[i][5],
-						curvePoints[i][6],
-						curvePoints[i][7],
-					);
-				}
-				
+				drawSpiral(curvePoints[i], lineSize, lineColor);
 				curvePoints[i] = cycleDataPoints(curvePoints[i], currentCoord);
 			}
 		}
@@ -152,43 +136,14 @@ function draw() {
 	if (showCounterSpirals == true && amountSteps % anglePrecision == 0) {
 		for (i = 0; i <= fibonacciB; i++) {
 			if ((amountSteps - i) % fibonacciB == 0) {
-				
-				// draw if enough data is there
-				if (curvePointsCounter[i][0] != center[0]) {
-					stroke(counterLineColor[0],counterLineColor[1],counterLineColor[2]);
-					strokeWeight(lineSize);
-					curve(
-						curvePointsCounter[i][0],
-						curvePointsCounter[i][1],
-						curvePointsCounter[i][2],
-						curvePointsCounter[i][3],
-						curvePointsCounter[i][4],
-						curvePointsCounter[i][5],
-						curvePointsCounter[i][6],
-						curvePointsCounter[i][7],
-					);
-				}
+				drawSpiral(curvePointsCounter[i], lineSize, counterLineColor) ;
 				curvePointsCounter[i] = cycleDataPoints(curvePointsCounter[i], currentCoord);
 			}
 		}
 	}
 
 	if (showBaseSpiral == true) {
-		// draw if enough data is there
-		if (baseSpiralPoints[0] != center[0]) {
-			stroke(baseLineColor[0],baseLineColor[1],baseLineColor[2]);
-			strokeWeight(baseLineSize);
-			curve(
-				baseSpiralPoints[0],
-				baseSpiralPoints[1],
-				baseSpiralPoints[2],
-				baseSpiralPoints[3],
-				baseSpiralPoints[4],
-				baseSpiralPoints[5],
-				baseSpiralPoints[6],
-				baseSpiralPoints[7],
-			);
-		}
+		drawSpiral(baseSpiralPoints, baseLineSize, baseLineColor);
 		baseSpiralPoints = cycleDataPoints(baseSpiralPoints, currentCoord);
 	}
 
@@ -197,6 +152,24 @@ function draw() {
 		stroke(pointColor[0],pointColor[1],pointColor[2]);
 		point(currentCoord[0],currentCoord[1]);
 	}
+}
+
+function drawSpiral(dataPoints, drawLineSize, drawColor) {
+	// only draw if enough data for a curve
+	if (dataPoints[0] != center[0]) {
+		stroke(drawColor[0],drawColor[1],drawColor[2]);
+		strokeWeight(drawLineSize);
+		curve(
+			dataPoints[0],
+			dataPoints[1],
+			dataPoints[2],
+			dataPoints[3],
+			dataPoints[4],
+			dataPoints[5],
+			dataPoints[6],
+			dataPoints[7],
+		);
+	}	
 }
 
 function getXY(distance, angle, center) { 
